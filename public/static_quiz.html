@@ -10,8 +10,11 @@
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --text-color: #1e293b;
+            --text-dim: #64748b;
             --primary-color: #3b82f6;
             --primary-hover: #2563eb;
+            --success-color: #22c55e;
+            --error-color: #ef4444;
             --border-color: #e2e8f0;
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
@@ -21,6 +24,7 @@
                 --bg-color: #0f172a;
                 --card-bg: #1e293b;
                 --text-color: #f1f5f9;
+                --text-dim: #94a3b8;
                 --primary-color: #60a5fa;
                 --primary-hover: #3b82f6;
                 --border-color: #334155;
@@ -62,51 +66,102 @@
             flex-direction: column;
             gap: 1.5rem;
             padding-bottom: 2rem;
+            flex: 1;
         }
 
+        /* Views */
+        .view {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Controls */
         .controls {
             display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
         }
 
         select {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
             border: 1px solid var(--border-color);
             background-color: var(--card-bg);
             color: var(--text-color);
             font-size: 1rem;
             cursor: pointer;
-            flex-grow: 1;
-            max-width: 100%;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            max-width: 400px;
         }
 
         button {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
             border: none;
             background-color: var(--primary-color);
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         button:hover {
-            background-color: var(--primary-hover);
+            filter: brightness(110%);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--card-bg);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-danger {
+            background-color: var(--error-color);
+        }
+
+        /* Flashcard */
         .card-container {
             perspective: 1000px;
             width: 100%;
-            height: 300px;
+            aspect-ratio: 4/3;
             cursor: pointer;
         }
 
@@ -117,8 +172,6 @@
             text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
-            border-radius: 1rem;
-            box-shadow: var(--shadow);
         }
 
         .card.flipped {
@@ -136,64 +189,167 @@
             justify-content: center;
             align-items: center;
             background-color: var(--card-bg);
-            border-radius: 1rem;
+            border-radius: 1.5rem;
             border: 1px solid var(--border-color);
             padding: 2rem;
             box-sizing: border-box;
+            box-shadow: var(--shadow);
         }
 
         .card-back {
             transform: rotateY(180deg);
-            overflow-y: auto;
         }
 
         .word {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
         }
 
         .reading {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .meaning {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             line-height: 1.6;
-            margin-bottom: 1rem;
-            white-space: pre-wrap;
+            margin-bottom: 1.5rem;
         }
 
         .example {
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-style: italic;
-            opacity: 0.8;
+            color: var(--text-dim);
             margin-top: auto;
         }
 
-        .navigation {
+        /* Rating Buttons */
+        .rating-controls {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 1rem;
             width: 100%;
+            margin-top: 1rem;
         }
 
-        .progress {
-            font-size: 0.9rem;
-            font-weight: 600;
-            opacity: 0.7;
+        .rating-btn {
+            flex: 1;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        .hidden {
-            display: none;
+        /* Quiz */
+        .quiz-card {
+            background-color: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .quiz-sentence {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-meaning {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .quiz-option.correct {
+            background-color: rgba(34, 197, 94, 0.2);
+            border-color: var(--success-color);
+            color: var(--success-color);
+        }
+
+        .quiz-option.incorrect {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: var(--error-color);
+            color: var(--error-color);
+        }
+
+        /* Summary */
+        .summary-card {
+            background-color: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary-color), #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-detail {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Utility */
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background-color: var(--border-color);
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
         }
 
         .loading {
-            text-align: center;
-            padding: 2rem;
-            font-size: 1.2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -204,38 +360,105 @@
     </header>
 
     <main>
-        <div class="controls">
-            <select id="topicSelect">
-                <option value="" disabled selected>Select a topic...</option>
-            </select>
-            <button id="shuffleBtn">Shuffle</button>
+        <!-- Menu View -->
+        <div id="menuView" class="view">
+            <div class="controls">
+                <select id="topicSelect">
+                    <option value="" disabled selected>Select a topic...</option>
+                </select>
+                <div class="btn-group">
+                    <button id="startFlashcardsBtn" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 3v18h14V3H5zM9 7h6M9 11h6M9 15h4" />
+                        </svg>
+                        Flashcards
+                    </button>
+                    <button id="startQuizBtn" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                        </svg>
+                        Quiz
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <div id="quizArea" class="hidden">
+        <!-- Flashcard View -->
+        <div id="flashcardView" class="view hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="fcProgress"></div>
+            </div>
+            <div class="navigation" style="display: flex; justify-content: space-between; color: var(--text-dim);">
+                <button id="fcHomeBtn" class="btn-secondary" style="width: auto; padding: 0.5rem;">Home</button>
+                <span id="fcCount">0 / 0</span>
+            </div>
+
             <div class="card-container" id="cardContainer">
                 <div class="card" id="flashcard">
                     <div class="card-face card-front">
-                        <div class="word" id="cardWord"></div>
-                        <div class="reading" style="font-size: 1rem; opacity: 0.6;">(Click to reveal)</div>
+                        <div class="word" id="fcWord"></div>
+                        <div class="reading" style="font-size: 1rem; opacity: 0.6;">(Click to flip)</div>
                     </div>
                     <div class="card-face card-back">
-                        <div class="word" id="cardWordBack"></div>
-                        <div class="reading" id="cardReading"></div>
-                        <div class="meaning" id="cardMeaning"></div>
-                        <div class="example" id="cardExample"></div>
+                        <div class="word" id="fcWordBack"></div>
+                        <div class="reading" id="fcReading"></div>
+                        <div class="meaning" id="fcMeaning"></div>
+                        <div class="example" id="fcExample"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="navigation">
-                <button id="prevBtn">Previous</button>
-                <span class="progress" id="progressDisplay">0 / 0</span>
-                <button id="nextBtn">Next</button>
+            <div class="rating-controls hidden" id="ratingControls">
+                <button class="rating-btn btn-danger" onclick="handleRate(1)">
+                    <span style="font-size: 1.5rem;">✕</span>
+                    Don't Know
+                </button>
+                <button class="rating-btn btn-success" onclick="handleRate(5)">
+                    <span style="font-size: 1.5rem;">✓</span>
+                    Know
+                </button>
+            </div>
+            <button id="fcFlipBtn" style="margin-top: 1rem;">Show Answer</button>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quizView" class="view hidden">
+            <div class="progress-bar">
+                <div class="progress-fill" id="qzProgress"></div>
+            </div>
+            <div class="navigation" style="display: flex; justify-content: space-between; color: var(--text-dim);">
+                <button id="qzHomeBtn" class="btn-secondary" style="width: auto; padding: 0.5rem;">Home</button>
+                <span id="qzCount">0 / 0</span>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-sentence" id="qzSentence"></div>
+                <div class="quiz-meaning" id="qzMeaning"></div>
+                <div class="quiz-options" id="qzOptions">
+                    <!-- Options generated here -->
+                </div>
             </div>
         </div>
 
-        <div id="loading" class="hidden loading">Loading...</div>
+        <!-- Summary View -->
+        <div id="summaryView" class="view hidden">
+            <div class="summary-card">
+                <h2 id="summaryTitle">Session Complete!</h2>
+                <div class="score-display" id="summaryScore">0%</div>
+                <div class="score-detail" id="summaryDetail">0 / 0 Correct</div>
+
+                <div class="controls">
+                    <button id="retryAllBtn">Retry All</button>
+                    <button id="retryMissedBtn" class="btn-secondary hidden">Retry Missed</button>
+                    <button id="homeBtn" class="btn-secondary">Back to Home</button>
+                </div>
+            </div>
+        </div>
     </main>
+
+    <div id="loading" class="loading hidden">Loading...</div>
 
     <script>
         // Configuration
@@ -249,27 +472,53 @@
         const CSV_BASE_PATH = '../csvs/';
 
         // State
-        let currentData = [];
+        let allCards = [];
+        let sessionCards = [];
+        let missedCards = [];
         let currentIndex = 0;
         let isFlipped = false;
+        let currentMode = 'menu'; // menu, flashcard, quiz, summary
+        let correctCount = 0;
+        let currentTopicId = '';
 
         // Elements
-        const topicSelect = document.getElementById('topicSelect');
-        const shuffleBtn = document.getElementById('shuffleBtn');
-        const quizArea = document.getElementById('quizArea');
-        const loadingIndicator = document.getElementById('loading');
-        const cardContainer = document.getElementById('cardContainer');
-        const flashcard = document.getElementById('flashcard');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const progressDisplay = document.getElementById('progressDisplay');
+        const views = {
+            menu: document.getElementById('menuView'),
+            flashcard: document.getElementById('flashcardView'),
+            quiz: document.getElementById('quizView'),
+            summary: document.getElementById('summaryView')
+        };
 
-        // Card Elements
-        const cardWord = document.getElementById('cardWord');
-        const cardWordBack = document.getElementById('cardWordBack');
-        const cardReading = document.getElementById('cardReading');
-        const cardMeaning = document.getElementById('cardMeaning');
-        const cardExample = document.getElementById('cardExample');
+        const topicSelect = document.getElementById('topicSelect');
+        const startFlashcardsBtn = document.getElementById('startFlashcardsBtn');
+        const startQuizBtn = document.getElementById('startQuizBtn');
+        const loadingIndicator = document.getElementById('loading');
+
+        // Flashcard Elements
+        const fcWord = document.getElementById('fcWord');
+        const fcWordBack = document.getElementById('fcWordBack');
+        const fcReading = document.getElementById('fcReading');
+        const fcMeaning = document.getElementById('fcMeaning');
+        const fcExample = document.getElementById('fcExample');
+        const flashcard = document.getElementById('flashcard');
+        const ratingControls = document.getElementById('ratingControls');
+        const fcFlipBtn = document.getElementById('fcFlipBtn');
+        const fcProgress = document.getElementById('fcProgress');
+        const fcCount = document.getElementById('fcCount');
+
+        // Quiz Elements
+        const qzSentence = document.getElementById('qzSentence');
+        const qzMeaning = document.getElementById('qzMeaning');
+        const qzOptions = document.getElementById('qzOptions');
+        const qzProgress = document.getElementById('qzProgress');
+        const qzCount = document.getElementById('qzCount');
+
+        // Summary Elements
+        const summaryScore = document.getElementById('summaryScore');
+        const summaryDetail = document.getElementById('summaryDetail');
+        const retryAllBtn = document.getElementById('retryAllBtn');
+        const retryMissedBtn = document.getElementById('retryMissedBtn');
+        const homeBtn = document.getElementById('homeBtn');
 
         // Initialize
         function init() {
@@ -287,86 +536,55 @@
         }
 
         function setupEventListeners() {
-            topicSelect.addEventListener('change', (e) => loadTopic(e.target.value));
-
-            cardContainer.addEventListener('click', () => {
-                isFlipped = !isFlipped;
-                updateCardFlip();
+            topicSelect.addEventListener('change', (e) => {
+                currentTopicId = e.target.value;
+                startFlashcardsBtn.disabled = !currentTopicId;
+                startQuizBtn.disabled = !currentTopicId;
             });
 
-            prevBtn.addEventListener('click', () => {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    isFlipped = false;
-                    renderCard();
-                }
-            });
+            startFlashcardsBtn.addEventListener('click', () => loadAndStart('flashcard'));
+            startQuizBtn.addEventListener('click', () => loadAndStart('quiz'));
 
-            nextBtn.addEventListener('click', () => {
-                if (currentIndex < currentData.length - 1) {
-                    currentIndex++;
-                    isFlipped = false;
-                    renderCard();
-                }
-            });
+            // Flashcard interactions
+            document.getElementById('cardContainer').addEventListener('click', flipCard);
+            fcFlipBtn.addEventListener('click', flipCard);
+            document.getElementById('fcHomeBtn').addEventListener('click', showMenu);
 
-            shuffleBtn.addEventListener('click', () => {
-                if (currentData.length > 0) {
-                    shuffleArray(currentData);
-                    currentIndex = 0;
-                    isFlipped = false;
-                    renderCard();
-                }
-            });
-
-            // Keyboard navigation
-            document.addEventListener('keydown', (e) => {
-                if (quizArea.classList.contains('hidden')) return;
-
-                if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
-                    e.preventDefault(); // Prevent scrolling
-                    isFlipped = !isFlipped;
-                    updateCardFlip();
-                } else if (e.code === 'ArrowLeft') {
-                    if (currentIndex > 0) {
-                        currentIndex--;
-                        isFlipped = false;
-                        renderCard();
-                    }
-                } else if (e.code === 'ArrowRight') {
-                    if (currentIndex < currentData.length - 1) {
-                        currentIndex++;
-                        isFlipped = false;
-                        renderCard();
-                    }
-                }
-            });
+            // Summary interactions
+            homeBtn.addEventListener('click', showMenu);
+            retryAllBtn.addEventListener('click', () => restartSession(allCards));
+            retryMissedBtn.addEventListener('click', () => restartSession(missedCards));
+            document.getElementById('qzHomeBtn').addEventListener('click', showMenu);
         }
 
-        async function loadTopic(filename) {
-            if (!filename) return;
-
+        async function loadAndStart(mode) {
+            if (!currentTopicId) return;
             showLoading(true);
-            quizArea.classList.add('hidden');
-
             try {
-                const response = await fetch(CSV_BASE_PATH + filename);
+                const response = await fetch(CSV_BASE_PATH + currentTopicId);
                 if (!response.ok) throw new Error('Failed to load CSV');
-
                 const text = await response.text();
-                currentData = parseCSV(text);
-                currentIndex = 0;
-                isFlipped = false;
+                allCards = parseCSV(text);
 
-                if (currentData.length > 0) {
-                    renderCard();
-                    quizArea.classList.remove('hidden');
+                if (allCards.length === 0) {
+                    alert('No cards found.');
+                    return;
+                }
+
+                if (mode === 'quiz') {
+                    // Filter for quiz (needs examples)
+                    const quizCards = allCards.filter(c => c.examples && c.examples.length > 0);
+                    if (quizCards.length < 4) {
+                        alert('Not enough cards with examples for a quiz (need at least 4).');
+                        return;
+                    }
+                    startSession(quizCards, 'quiz');
                 } else {
-                    alert('No data found in this CSV.');
+                    startSession(allCards, 'flashcard');
                 }
             } catch (error) {
                 console.error(error);
-                alert('Error loading topic: ' + error.message);
+                alert('Error: ' + error.message);
             } finally {
                 showLoading(false);
             }
@@ -374,87 +592,219 @@
 
         function parseCSV(text) {
             const lines = text.split(/\r\n|\n/);
-            const headers = lines[0].split(',');
+            if (lines.length < 2) return [];
+
+            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
             const data = [];
+
+            // Identify columns
+            const kanjiIdx = headers.findIndex(h => h.includes('word') || h.includes('kanji'));
+            const readingIdx = headers.findIndex(h => h.includes('reading') || h.includes('kana'));
+            const meaningIdx = headers.findIndex(h => h.includes('meaning'));
+
+            // Find all example columns
+            const exampleIndices = headers.map((h, i) =>
+                (h.includes('example') || h.includes('question')) ? i : -1
+            ).filter(i => i !== -1);
 
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (!line) continue;
 
-                // Simple CSV parsing handling quoted fields
+                // Simple parser (handling quotes roughly)
                 const row = [];
                 let inQuotes = false;
-                let currentValue = '';
-
+                let val = '';
                 for (let char of line) {
-                    if (char === '"') {
-                        inQuotes = !inQuotes;
-                    } else if (char === ',' && !inQuotes) {
-                        row.push(currentValue);
-                        currentValue = '';
-                    } else {
-                        currentValue += char;
-                    }
+                    if (char === '"') inQuotes = !inQuotes;
+                    else if (char === ',' && !inQuotes) { row.push(val); val = ''; }
+                    else val += char;
                 }
-                row.push(currentValue);
+                row.push(val);
 
-                if (row.length >= 2) { // Ensure at least Word and Reading exist
+                if (row[kanjiIdx]) {
+                    const examples = exampleIndices.map(idx => row[idx]).filter(s => s && s.trim().length > 0);
                     data.push({
-                        word: row[0] || '',
-                        reading: row[1] || '',
-                        meaning: row[2] || '',
-                        example: row[3] || ''
+                        id: i,
+                        kanji: row[kanjiIdx] || '?',
+                        reading: row[readingIdx] || '',
+                        meaning: row[meaningIdx] || '?',
+                        examples: examples
                     });
                 }
             }
             return data;
         }
 
-        function renderCard() {
-            if (currentData.length === 0) return;
+        function startSession(cards, mode) {
+            sessionCards = [...cards];
+            // Shuffle
+            for (let i = sessionCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [sessionCards[i], sessionCards[j]] = [sessionCards[j], sessionCards[i]];
+            }
 
-            const item = currentData[currentIndex];
+            currentIndex = 0;
+            correctCount = 0;
+            missedCards = [];
+            currentMode = mode;
 
-            // Update content
-            cardWord.textContent = item.word;
-            cardWordBack.textContent = item.word;
-            cardReading.textContent = item.reading;
-            cardMeaning.textContent = item.meaning;
-            cardExample.textContent = item.example;
+            showView(mode);
 
-            // Update state
-            updateCardFlip();
-            updateProgress();
-
-            // Update buttons
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === currentData.length - 1;
-        }
-
-        function updateCardFlip() {
-            if (isFlipped) {
-                flashcard.classList.add('flipped');
+            if (mode === 'flashcard') {
+                renderFlashcard();
             } else {
-                flashcard.classList.remove('flipped');
+                renderQuiz();
             }
         }
 
-        function updateProgress() {
-            progressDisplay.textContent = `${currentIndex + 1} / ${currentData.length}`;
+        function restartSession(cards) {
+            startSession(cards, currentMode);
+        }
+
+        function showView(viewName) {
+            Object.values(views).forEach(el => el.classList.add('hidden'));
+            views[viewName].classList.remove('hidden');
+        }
+
+        function showMenu() {
+            showView('menu');
         }
 
         function showLoading(show) {
-            if (show) {
-                loadingIndicator.classList.remove('hidden');
+            if (show) loadingIndicator.classList.remove('hidden');
+            else loadingIndicator.classList.add('hidden');
+        }
+
+        // --- Flashcard Logic ---
+
+        function renderFlashcard() {
+            const card = sessionCards[currentIndex];
+            isFlipped = false;
+            flashcard.classList.remove('flipped');
+
+            fcWord.textContent = card.kanji;
+            fcWordBack.textContent = card.kanji;
+            fcReading.textContent = card.reading;
+            fcMeaning.textContent = card.meaning;
+            fcExample.textContent = card.examples[0] || '';
+
+            fcFlipBtn.classList.remove('hidden');
+            ratingControls.classList.add('hidden');
+
+            updateProgress('fc');
+        }
+
+        function flipCard() {
+            if (isFlipped) return; // Already flipped
+            isFlipped = true;
+            flashcard.classList.add('flipped');
+            fcFlipBtn.classList.add('hidden');
+            ratingControls.classList.remove('hidden');
+        }
+
+        window.handleRate = function (rating) {
+            const card = sessionCards[currentIndex];
+            if (rating === 1) { // Don't Know
+                missedCards.push(card);
             } else {
-                loadingIndicator.classList.add('hidden');
+                correctCount++;
+            }
+
+            if (currentIndex < sessionCards.length - 1) {
+                currentIndex++;
+                renderFlashcard();
+            } else {
+                finishSession();
             }
         }
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
+        // --- Quiz Logic ---
+
+        function renderQuiz() {
+            const card = sessionCards[currentIndex];
+
+            // Generate question
+            const sentence = card.examples[Math.floor(Math.random() * card.examples.length)];
+            const cloze = sentence.replace(card.kanji, '______');
+
+            qzSentence.textContent = cloze;
+            qzMeaning.textContent = card.meaning;
+
+            // Generate options
+            const options = [card];
+            const distractors = allCards.filter(c => c.id !== card.id);
+            while (options.length < 4 && distractors.length > 0) {
+                const idx = Math.floor(Math.random() * distractors.length);
+                options.push(distractors[idx]);
+                distractors.splice(idx, 1);
+            }
+
+            // Shuffle options
+            for (let i = options.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+
+            qzOptions.innerHTML = '';
+            options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt.kanji;
+                btn.onclick = () => handleQuizAnswer(btn, opt.id === card.id);
+                qzOptions.appendChild(btn);
+            });
+
+            updateProgress('qz');
+        }
+
+        function handleQuizAnswer(btn, isCorrect) {
+            // Disable all buttons
+            const buttons = qzOptions.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                correctCount++;
+            } else {
+                btn.classList.add('incorrect');
+                // Highlight correct one
+                const correctBtn = Array.from(buttons).find(b => b.textContent === sessionCards[currentIndex].kanji);
+                if (correctBtn) correctBtn.classList.add('correct');
+            }
+
+            setTimeout(() => {
+                if (currentIndex < sessionCards.length - 1) {
+                    currentIndex++;
+                    renderQuiz();
+                } else {
+                    finishSession();
+                }
+            }, 1500);
+        }
+
+        // --- Shared ---
+
+        function updateProgress(prefix) {
+            const current = currentIndex + 1;
+            const total = sessionCards.length;
+            const pct = (currentIndex / total) * 100;
+
+            document.getElementById(prefix + 'Count').textContent = `${current} / ${total}`;
+            document.getElementById(prefix + 'Progress').style.width = `${pct}%`;
+        }
+
+        function finishSession() {
+            showView('summary');
+            const pct = Math.round((correctCount / sessionCards.length) * 100);
+            summaryScore.textContent = `${pct}%`;
+            summaryDetail.textContent = `${correctCount} / ${sessionCards.length} Correct`;
+
+            if (missedCards.length > 0 && currentMode === 'flashcard') {
+                retryMissedBtn.classList.remove('hidden');
+                retryMissedBtn.textContent = `Retry ${missedCards.length} Missed`;
+            } else {
+                retryMissedBtn.classList.add('hidden');
             }
         }
 

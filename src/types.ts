@@ -3,7 +3,7 @@ export interface Flashcard {
     kanji: string;
     reading: string;
     meaning: string;
-    exampleSentence?: string;
+    exampleSentences: string[];
 }
 
 export interface Topic {

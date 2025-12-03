@@ -58,7 +58,10 @@ export const loadCards = (topicId: string): Flashcard[] => {
             kanji: row[kanjiKey] || '?',
             reading: row[readingKey] || '',
             meaning: row[meaningKey] || '?',
-            exampleSentence: ''
+            exampleSentences: keys
+                .filter(k => k.toLowerCase().includes('example') || k.toLowerCase().includes('question'))
+                .map(k => row[k])
+                .filter(s => s && s.trim().length > 0)
         };
     }) as Flashcard[];
 };

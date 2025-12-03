@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import TopicSelectionPage from './pages/TopicSelectionPage';
 import GamePage from './pages/GamePage';
+import QuizPage from './pages/QuizPage';
 import SummaryPage from './pages/SummaryPage';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<TopicSelectionPage />} />
           <Route path="game/:topicId" element={<GamePage />} />
+          <Route path="quiz/:topicId" element={<QuizPage />} />
           <Route path="summary" element={<SummaryPage />} />
         </Route>
       </Routes>

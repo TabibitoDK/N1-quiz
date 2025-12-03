@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import type { Flashcard } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, RotateCw } from 'lucide-react';
+import { ArrowLeft, RotateCw, Check, X } from 'lucide-react';
 import { loadCards } from '../lib/csvLoader';
 
 export default function GamePage() {
@@ -18,8 +18,17 @@ export default function GamePage() {
   const [sessionResults, setSessionResults] = useState<{cardId: string, rating: number}[]>([]);
   const [startTime] = useState(Date.now());
 
+  const location = useLocation();
+  const state = location.state as { customCards?: Flashcard[] } | null;
+
   useEffect(() => {
     if (!topicId) return;
+
+    if (state?.customCards) {
+      setCards(state.customCards);
+      setLoading(false);
+      return;
+    }
 
     // Load cards from local CSV
     const fetchedCards = loadCards(topicId);
@@ -28,7 +37,7 @@ export default function GamePage() {
     const shuffled = fetchedCards.sort(() => Math.random() - 0.5);
     setCards(shuffled);
     setLoading(false);
-  }, [topicId]);
+  }, [topicId, state]);
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -65,10 +74,17 @@ export default function GamePage() {
       });
 
       // Navigate to summary
+      // Navigate to summary
+      const missedCards = cards.filter(c => {
+          const result = results.find(r => r.cardId === c.id);
+          return result && result.rating < 3;
+      });
+
       navigate('/summary', { state: { 
         total: cards.length, 
         correct: correctCount, 
-        topicId 
+        topicId,
+        missedCards 
       }});
     } catch (err) {
       console.error("Error saving session:", err);
@@ -177,25 +193,28 @@ export default function GamePage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="grid grid-cols-5 gap-2 w-full"
+            <motion.div
+              key="ratings"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="flex gap-4 w-full max-w-md px-4"
             >
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <button
-                  key={rating}
-                  onClick={(e) => { e.stopPropagation(); handleRate(rating); }}
-                  className={`
-                    flex flex-col items-center justify-center p-3 rounded-xl transition-all
-                    ${rating <= 2 ? 'bg-red-500/20 hover:bg-red-500/40 text-red-200' : ''}
-                    ${rating === 3 ? 'bg-yellow-500/20 hover:bg-yellow-500/40 text-yellow-200' : ''}
-                    ${rating >= 4 ? 'bg-green-500/20 hover:bg-green-500/40 text-green-200' : ''}
-                  `}
-                >
-                  <span className="text-xl font-bold mb-1">{rating}</span>
-                  <span className="text-[10px] uppercase opacity-70">
-                    {rating === 1 ? 'Forgot' : rating === 5 ? 'Perfect' : ''}
-                  </span>
-                </button>
-              ))}
+              <button
+                onClick={(e) => { e.stopPropagation(); handleRate(1); }}
+                className="flex-1 flex flex-col items-center justify-center p-4 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-200 border border-red-500/30 transition-all"
+              >
+                <X size={32} className="mb-1" />
+                <span className="font-bold">Don't Know</span>
+              </button>
+              
+              <button
+                onClick={(e) => { e.stopPropagation(); handleRate(5); }}
+                className="flex-1 flex flex-col items-center justify-center p-4 rounded-xl bg-green-500/20 hover:bg-green-500/30 text-green-200 border border-green-500/30 transition-all"
+              >
+                <Check size={32} className="mb-1" />
+                <span className="font-bold">Know</span>
+              </button>
             </motion.div>
           )}
         </AnimatePresence>

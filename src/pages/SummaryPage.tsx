@@ -8,7 +8,7 @@ import type { StudySession } from '../types';
 
 export default function SummaryPage() {
   const location = useLocation();
-  const state = location.state as { total: number; correct: number; topicId: string } | null;
+  const state = location.state as { total: number; correct: number; topicId: string; missedCards?: any[] } | null;
   const [history, setHistory] = useState<StudySession[]>([]);
   const [loading, setLoading] = useState(!state);
 
@@ -73,9 +73,18 @@ export default function SummaryPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <Link to={`/game/${state.topicId}`} className="btn-primary flex items-center justify-center gap-2">
-                <RotateCcw size={20} /> Retry
+                <RotateCcw size={20} /> Retry All
               </Link>
-              <Link to="/" className="btn-secondary flex items-center justify-center gap-2">
+              {state.missedCards && state.missedCards.length > 0 && (
+                 <Link 
+                    to={`/game/${state.topicId}`} 
+                    state={{ customCards: state.missedCards }}
+                    className="btn-secondary flex items-center justify-center gap-2"
+                 >
+                    <RotateCcw size={20} /> Retry Missed
+                 </Link>
+              )}
+               <Link to="/" className="btn-secondary flex items-center justify-center gap-2 col-span-2">
                 <Home size={20} /> Home
               </Link>
             </div>
